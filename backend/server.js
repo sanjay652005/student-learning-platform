@@ -27,14 +27,9 @@ connectDB();
 const app = express();
 
 /* ============================
-   CORS
+   ✅ CORS (FINAL FIX – NO ISSUES)
    ============================ */
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+app.use(cors());
 
 /* ============================
    Body Parser
@@ -44,7 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 
 /* ============================
    🔓 PUBLIC STATIC FILES
-   (FOR PDF PREVIEW)
+   (PDF PREVIEW)
    ============================ */
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
