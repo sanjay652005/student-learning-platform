@@ -1,7 +1,9 @@
 import axios from "axios";
 
-// ✅ BASE URL FROM ENV (LIVE BACKEND)
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// ✅ BASE URL FROM ENV (WITH SAFE FALLBACK)
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 const API_URL = `${BASE_URL}/api/question-papers`;
 
 /* =========================
@@ -37,19 +39,16 @@ export const createQuestionPaper = async (data) => {
   return res.data;
 };
 
-// ⬇️ Download (CORRECT ORDER + LIVE BACKEND)
+// ⬇️ Download
 export const downloadQuestionPaper = async (id) => {
   const token = localStorage.getItem("token");
 
-  const res = await axios.get(
-    `${API_URL}/${id}/download`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      responseType: "blob",
-    }
-  );
+  const res = await axios.get(`${API_URL}/${id}/download`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    responseType: "blob",
+  });
 
   return res.data;
 };
@@ -66,3 +65,4 @@ export const deleteQuestionPaper = async (id) => {
 
   return res.data;
 };
+
