@@ -34,7 +34,7 @@ const Login = () => {
       setLoading(true);
 
       const res = await fetch(
-        "http://localhost:5000/api/users/login",
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
         {
           method: "POST",
           headers: {
@@ -53,7 +53,7 @@ const Login = () => {
       // ✅ SAVE TOKEN
       localStorage.setItem("token", data.token);
 
-      // 🔥 NOTIFY NAVBAR (CRITICAL FIX)
+      // 🔥 NOTIFY NAVBAR
       window.dispatchEvent(new Event("auth-change"));
 
       // ➡️ REDIRECT
@@ -107,4 +107,5 @@ const Login = () => {
 };
 
 export default Login;
+
 

@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/question-papers";
+// ✅ BASE URL FROM ENV (LIVE BACKEND)
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = `${BASE_URL}/api/question-papers`;
 
 /* =========================
    🔓 PUBLIC
@@ -35,12 +37,12 @@ export const createQuestionPaper = async (data) => {
   return res.data;
 };
 
-// ✅ FINAL FIX — DOWNLOAD (CORRECT URL ORDER)
+// ⬇️ Download (CORRECT ORDER + LIVE BACKEND)
 export const downloadQuestionPaper = async (id) => {
   const token = localStorage.getItem("token");
 
   const res = await axios.get(
-    `${API_URL}/${id}/download`, // ✅ FIXED
+    `${API_URL}/${id}/download`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

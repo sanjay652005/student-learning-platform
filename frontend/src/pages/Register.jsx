@@ -40,13 +40,16 @@ const Register = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/users/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name, email, password }),
+        }
+      );
 
       const data = await res.json();
 
@@ -66,7 +69,9 @@ const Register = () => {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Create Account</h2>
-        <p className="auth-subtitle">Register to access study materials</p>
+        <p className="auth-subtitle">
+          Register to access study materials
+        </p>
 
         {error && <p className="error-text">{error}</p>}
 
@@ -110,7 +115,9 @@ const Register = () => {
 
         <p className="auth-footer">
           Already have an account?{" "}
-          <span onClick={() => navigate("/login")}>Login</span>
+          <span onClick={() => navigate("/login")}>
+            Login
+          </span>
         </p>
       </div>
     </div>

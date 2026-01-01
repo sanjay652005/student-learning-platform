@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/notes";
+// ✅ BASE URL FROM ENV (LIVE BACKEND)
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const API_URL = `${BASE_URL}/api/notes`;
 
 /* ============================
    🔓 PUBLIC APIs
@@ -65,7 +67,7 @@ export const updateNote = async (id, noteData) => {
 export const downloadNote = async (id) => {
   const token = localStorage.getItem("token");
 
-  const res = await axios.get(`${API_URL}/download/${id}`, {
+  const res = await axios.get(`${API_URL}/${id}/download`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -87,7 +89,6 @@ export const deleteNote = async (id) => {
 
   return res.data;
 };
-
 
 
 
