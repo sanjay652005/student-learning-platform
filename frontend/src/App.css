@@ -1,0 +1,428 @@
+
+/* ========================= */
+/* Base */
+/* ========================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
+  background: #f8fafc;
+}
+
+/* ========================= */
+/* Container */
+/* ========================= */
+.app-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* ========================= */
+/* Filters */
+/* ========================= */
+.filter-box {
+  background: #f9fafb;
+  padding: 14px;
+  border-radius: 8px;
+  margin: 10px 0 16px;
+}
+
+.filter-box input,
+.filter-box select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+}
+
+/* ========================= */
+/* Cards */
+/* ========================= */
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  padding: 16px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+.card h3 {
+  margin: 0 0 6px;
+}
+
+.card p {
+  margin: 4px 0;
+}
+
+.card small {
+  display: block;
+  margin-top: 4px;
+  color: #555;
+}
+
+.card-actions {
+  margin-top: 10px;
+}
+
+.card-stats {
+  margin-top: 6px;
+  display: flex;
+  gap: 14px;
+  font-size: 13px;
+  color: #555;
+  align-items: center;
+}
+
+.card-stats span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-actions button {
+  margin-top: 6px;
+  margin-right: 10px;
+}
+
+.danger-btn {
+  background: #fee2e2;
+}
+
+/* ========================= */
+/* PDF Preview */
+/* ========================= */
+.pdf-preview {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: center;
+}
+
+.card iframe {
+  width: 75%;
+  max-width: 720px;
+  min-width: 320px;
+  height: 360px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #f5f5f5;
+}
+
+/* ========================= */
+/* Modal */
+/* ========================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: #ffffff;
+  padding: 20px;
+  width: 320px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modal-actions .danger {
+  background: #ef4444;
+  color: white;
+}
+
+/* ========================= */
+/* Navbar */
+/* ========================= */
+.navbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px 20px;
+  position: relative;
+  z-index: 999;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #2563eb;
+}
+
+.nav-links a.active {
+  font-weight: 600;
+  border-bottom: 2px solid #2563eb;
+}
+
+.logout-btn {
+  margin-left: auto;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #f3f4f6;
+  cursor: pointer;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  font-size: 22px;
+  border: 1px solid #e5e7eb;
+  background: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ========================= */
+/* Mobile */
+/* ========================= */
+@media (max-width: 480px) {
+  .app-container {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-actions button {
+    width: 100%;
+  }
+
+  .card iframe {
+    width: 100%;
+    min-width: unset;
+    height: 300px;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    padding: 12px 20px;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .logout-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* ✅ Mobile Nav Link Polish */
+  .nav-links a {
+    padding: 10px 8px;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 15px;
+  }
+
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+
+  .nav-links a.active {
+    border-bottom: none;
+    background: #eff6ff;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+}
+
+/* ========================= */
+/* Overlay */
+/* ========================= */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 998;
+}
+
+/* ========================= */
+/* Auth Pages (Login / Register) */
+/* ========================= */
+.auth-container {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h2 {
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.auth-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 18px;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.auth-card button {
+  margin-top: 6px;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+.auth-card button:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+.error-text {
+  color: #dc2626;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.auth-footer {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.auth-footer span {
+  color: #2563eb;
+  font-weight: 500;
+  cursor: pointer;
+}
+/* =========================
+   Home Page
+   ========================= */
+
+.home-card {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 28px;
+  text-align: center;
+}
+
+.home-subtitle {
+  margin-top: 10px;
+  color: #555;
+}
+
+.home-features {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.home-features li {
+  margin: 8px 0;
+  font-size: 15px;
+}
+
+.home-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.home-actions button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+}
+
+.home-actions button:hover {
+  background: #1e40af;
+}
+

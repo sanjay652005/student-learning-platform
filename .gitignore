@@ -1,0 +1,17 @@
+# Node
+node_modules/
+
+# Env files
+.env
+.env.local
+
+# Uploads
+backend/uploads/
+
+# Build
+dist/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
