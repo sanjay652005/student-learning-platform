@@ -27,11 +27,12 @@ export const getNotes = async (req, res) => {
 
     res.status(200).json(materials);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("getNotes error:", error);
+    res.status(500).json({ message: "Failed to load study materials" });
   }
 };
 
-// GET single study material (PUBLIC PREVIEW + VIEW COUNT)
+// ✅ FIXED — GET single study material (NO INVALID FIELDS)
 export const getNoteById = async (req, res) => {
   try {
     const material = await Note.findByIdAndUpdate(
@@ -40,7 +41,7 @@ export const getNoteById = async (req, res) => {
       { new: true }
     )
       .select(
-        "title semester subjectCode createdAt user filePath fileType views downloads"
+        "title semester subjectCode createdAt user views downloads"
       )
       .populate("user", "name");
 
@@ -50,7 +51,8 @@ export const getNoteById = async (req, res) => {
 
     res.status(200).json(material);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("getNoteById error:", error);
+    res.status(500).json({ message: "Failed to load study material" });
   }
 };
 
@@ -58,60 +60,40 @@ export const getNoteById = async (req, res) => {
    🔒 PROTECTED — USER ACTIONS
    ============================ */
 
-// ✅ FIXED: GET logged-in user's study materials
+// GET logged-in user's study materials
 export const getMyNotes = async (req, res) => {
   try {
     const materials = await Note.find({
-      user: req.user._id, // 🔥 FIX HERE
+      user: req.user._id,
     }).sort({ createdAt: -1 });
 
     res.status(200).json(materials);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("getMyNotes error:", error);
+    res.status(500).json({ message: "Failed to load your materials" });
   }
 };
 
-// CREATE study material (upload)
+// CREATE study material
 export const createNote = async (req, res) => {
   try {
     const { title, semester, subjectCode } = req.body;
 
-    if (!title || !semester || !subjectCode || !req.file) {
+    if (!title || !semester || !subjectCode) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
     const material = await Note.create({
-      user: req.user._id, // 🔥 FIX HERE
+      user: req.user._id,
       title,
       semester,
       subjectCode: subjectCode.toUpperCase(),
-      fileName: req.file.originalname,
-      filePath: `/uploads/${req.file.filename}`,
-      fileType: req.file.mimetype,
     });
 
     res.status(201).json(material);
   } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// DOWNLOAD study material (PROTECTED + DOWNLOAD COUNT)
-export const downloadNote = async (req, res) => {
-  try {
-    const material = await Note.findByIdAndUpdate(
-      req.params.id,
-      { $inc: { downloads: 1 } },
-      { new: true }
-    );
-
-    if (!material) {
-      return res.status(404).json({ message: "Study material not found" });
-    }
-
-    res.download(`.${material.filePath}`, material.fileName);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("createNote error:", error);
+    res.status(500).json({ message: "Failed to create study material" });
   }
 };
 
@@ -124,7 +106,6 @@ export const deleteNote = async (req, res) => {
       return res.status(404).json({ message: "Study material not found" });
     }
 
-    // 🔥 FIX HERE
     if (material.user.toString() !== req.user._id.toString()) {
       return res.status(401).json({ message: "Not authorized" });
     }
@@ -132,7 +113,8 @@ export const deleteNote = async (req, res) => {
     await material.deleteOne();
     res.status(200).json({ message: "Study material deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("deleteNote error:", error);
+    res.status(500).json({ message: "Failed to delete study material" });
   }
 };
 

@@ -1,9 +1,12 @@
+
+
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   getQuestionPaperById,
   downloadQuestionPaper,
 } from "../services/questionPaperService";
+import { API_BASE_URL } from "../config";
 
 const QuestionPaperDetails = () => {
   const { id } = useParams();
@@ -16,13 +19,13 @@ const QuestionPaperDetails = () => {
 
   const token = localStorage.getItem("token");
 
-  // 🔹 Fetch question paper preview (PUBLIC)
+  // 🔓 Fetch question paper preview
   useEffect(() => {
     const fetchPaper = async () => {
       try {
         const data = await getQuestionPaperById(id);
         setPaper(data);
-      } catch (err) {
+      } catch {
         setError("Unable to load question paper");
       } finally {
         setLoading(false);
@@ -32,7 +35,7 @@ const QuestionPaperDetails = () => {
     fetchPaper();
   }, [id]);
 
-  // 🔒 Download handler (LOGIN REQUIRED)
+  // 🔒 Download handler
   const handleDownload = async () => {
     if (!token) {
       navigate("/login");
@@ -49,8 +52,8 @@ const QuestionPaperDetails = () => {
       });
 
       const url = window.URL.createObjectURL(blob);
-
       const link = document.createElement("a");
+
       link.href = url;
       link.download = paper?.title || "question-paper";
 
@@ -74,22 +77,14 @@ const QuestionPaperDetails = () => {
     <div className="app-container">
       <h2>{paper.title}</h2>
 
-      <p>
-        <b>Year:</b> {paper.year}
-      </p>
+      <p><b>Year:</b> {paper.year}</p>
+      <p><b>Subject Code:</b> {paper.subjectCode}</p>
+      <p><b>Uploaded by:</b> {paper.user?.name}</p>
 
-      <p>
-        <b>Subject Code:</b> {paper.subjectCode}
-      </p>
-
-      <p>
-        <b>Uploaded by:</b> {paper.user?.name}
-      </p>
-
-      {/* 📄 PDF PREVIEW (NO SAVE / PRINT / TOOLBAR) */}
+      {/* ✅ FIXED PDF PREVIEW */}
       <div className="preview-box">
         <iframe
-          src={`http://localhost:5000${paper.filePath}#toolbar=0&navpanes=0&scrollbar=0`}
+          src={`${API_BASE_URL}${paper.filePath}#toolbar=0&navpanes=0&scrollbar=0`}
           title="Question Paper Preview"
           width="100%"
           height="500px"
@@ -97,7 +92,6 @@ const QuestionPaperDetails = () => {
         />
       </div>
 
-      {/* 🔒 DOWNLOAD BUTTON */}
       <button onClick={handleDownload} disabled={downloading}>
         {downloading ? "Downloading..." : "⬇️ Download 🔒"}
       </button>
@@ -106,3 +100,4 @@ const QuestionPaperDetails = () => {
 };
 
 export default QuestionPaperDetails;
+
