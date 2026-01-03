@@ -32,7 +32,7 @@ export const getNotes = async (req, res) => {
   }
 };
 
-// ✅ FIXED — GET single study material (NO INVALID FIELDS)
+// GET single study material (increment views)
 export const getNoteById = async (req, res) => {
   try {
     const material = await Note.findByIdAndUpdate(
@@ -41,7 +41,7 @@ export const getNoteById = async (req, res) => {
       { new: true }
     )
       .select(
-        "title semester subjectCode createdAt user views downloads"
+        "title semester subjectCode createdAt user views downloads fileName fileType"
       )
       .populate("user", "name");
 
@@ -77,9 +77,10 @@ export const getMyNotes = async (req, res) => {
 // CREATE study material
 export const createNote = async (req, res) => {
   try {
-    const { title, semester, subjectCode } = req.body;
+    const { title, semester, subjectCode, fileName, filePath, fileType } =
+      req.body;
 
-    if (!title || !semester || !subjectCode) {
+    if (!title || !semester || !subjectCode || !fileName || !filePath) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -88,12 +89,40 @@ export const createNote = async (req, res) => {
       title,
       semester,
       subjectCode: subjectCode.toUpperCase(),
+      fileName,
+      filePath,
+      fileType,
     });
 
     res.status(201).json(material);
   } catch (error) {
     console.error("createNote error:", error);
     res.status(500).json({ message: "Failed to create study material" });
+  }
+};
+
+// DOWNLOAD study material
+export const downloadNote = async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+
+    if (!note) {
+      return res.status(404).json({ message: "Study material not found" });
+    }
+
+    if (!note.filePath) {
+      return res.status(400).json({ message: "File not available for download" });
+    }
+
+    // increment downloads count
+    note.downloads += 1;
+    await note.save();
+
+    // send file
+    res.download(note.filePath, note.fileName);
+  } catch (error) {
+    console.error("downloadNote error:", error);
+    res.status(500).json({ message: "Failed to download study material" });
   }
 };
 
@@ -117,9 +146,3 @@ export const deleteNote = async (req, res) => {
     res.status(500).json({ message: "Failed to delete study material" });
   }
 };
-
-
-
-
-
-
