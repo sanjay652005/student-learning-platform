@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+// ✅ use the correct env variable (NO localhost fallback)
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 const API_URL = `${BASE_URL}/api/question-papers`;
 
