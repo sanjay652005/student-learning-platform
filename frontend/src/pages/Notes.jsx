@@ -155,7 +155,7 @@ const Notes = () => {
             placeholder="Subject Code (e.g. CS301)"
             value={subjectCode}
             onChange={(e) => setSubjectCode(e.target.value)}
-            style={{ marginLeft: "10px" }}
+            style={{ marginLeft: "1px" }}
           />
         </div>
       </div>
