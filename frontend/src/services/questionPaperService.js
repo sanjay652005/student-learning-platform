@@ -1,6 +1,10 @@
 import axios from "axios";
 
-// ✅ BASE URL FROM ENV (WITH SAFE FALLBACK)
+/*
+  API Base URL
+  - Local: http://localhost:5000
+  - Production (Vercel): VITE_API_BASE_URL
+*/
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
@@ -39,7 +43,7 @@ export const createQuestionPaper = async (data) => {
   return res.data;
 };
 
-// ⬇️ Download
+// Download
 export const downloadQuestionPaper = async (id) => {
   const token = localStorage.getItem("token");
 
@@ -65,4 +69,3 @@ export const deleteQuestionPaper = async (id) => {
 
   return res.data;
 };
-
