@@ -1,10 +1,6 @@
 import axios from "axios";
 
-/*
-  API Base URL
-  - Local: http://localhost:5000
-  - Production: VITE_API_BASE_URL (Vercel)
-*/
+
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
