@@ -1,20 +1,26 @@
 import axios from "axios";
 
-// ✅ BASE URL FROM ENV (LIVE BACKEND)
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+/*
+  API Base URL
+  - Local: http://localhost:5000
+  - Production: VITE_API_BASE_URL (Vercel)
+*/
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
 const API_URL = `${BASE_URL}/api/notes`;
 
 /* ============================
    🔓 PUBLIC APIs
    ============================ */
 
-// 🔓 Get all notes (search & browse)
+// Get all notes (search & browse)
 export const getNotes = async (params = {}) => {
   const res = await axios.get(API_URL, { params });
   return res.data;
 };
 
-// 🔓 Get single note preview
+// Get single note preview
 export const getNoteById = async (id) => {
   const res = await axios.get(`${API_URL}/${id}`);
   return res.data;
@@ -24,7 +30,7 @@ export const getNoteById = async (id) => {
    🔒 PROTECTED APIs
    ============================ */
 
-// 🔒 Get logged-in user's notes
+// Get logged-in user's notes
 export const getMyNotes = async () => {
   const token = localStorage.getItem("token");
 
@@ -37,7 +43,7 @@ export const getMyNotes = async () => {
   return res.data;
 };
 
-// 🔒 Create a new note (upload)
+// Create a new note (upload)
 export const createNote = async (noteData) => {
   const token = localStorage.getItem("token");
 
@@ -50,7 +56,7 @@ export const createNote = async (noteData) => {
   return res.data;
 };
 
-// 🔒 Update note
+// Update note
 export const updateNote = async (id, noteData) => {
   const token = localStorage.getItem("token");
 
@@ -63,7 +69,7 @@ export const updateNote = async (id, noteData) => {
   return res.data;
 };
 
-// 🔒 Download note
+// Download note
 export const downloadNote = async (id) => {
   const token = localStorage.getItem("token");
 
@@ -77,7 +83,7 @@ export const downloadNote = async (id) => {
   return res.data;
 };
 
-// 🔒 Delete note
+// Delete note
 export const deleteNote = async (id) => {
   const token = localStorage.getItem("token");
 
@@ -89,6 +95,4 @@ export const deleteNote = async (id) => {
 
   return res.data;
 };
-
-
 

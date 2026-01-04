@@ -39,6 +39,7 @@ const noteSchema = mongoose.Schema(
       uppercase: true,
       trim: true,
     },
+    
 
     // 📊 ANALYTICS
     views: {

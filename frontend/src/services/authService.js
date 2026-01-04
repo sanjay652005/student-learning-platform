@@ -1,57 +1,36 @@
-// frontend/src/services/authService.js
+import axios from "axios";
 
+/*
+  API Base URL
+  - Local: http://localhost:5000
+  - Production (Vercel): VITE_API_BASE_URL
+*/
 const BASE_URL =
-  (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000") +
-  "/api/users";
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
+const API_URL = `${BASE_URL}/api/users`;
+
+// Login
 export const loginUser = async (data) => {
-  const res = await fetch(`${BASE_URL}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  const result = await res.json();
-
-  if (!res.ok) {
-    throw new Error(result.message || "Login failed");
-  }
-
-  return result;
+  const res = await axios.post(`${API_URL}/login`, data);
+  return res.data;
 };
 
+// Register
 export const registerUser = async (data) => {
-  const res = await fetch(`${BASE_URL}/register`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  const result = await res.json();
-
-  if (!res.ok) {
-    throw new Error(result.message || "Registration failed");
-  }
-
-  return result;
+  const res = await axios.post(`${API_URL}/register`, data);
+  return res.data;
 };
 
-export const getProfile = async (token) => {
-  const res = await fetch(`${BASE_URL}/profile`, {
+// Profile
+export const getProfile = async () => {
+  const token = localStorage.getItem("token");
+
+  const res = await axios.get(`${API_URL}/profile`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
 
-  const result = await res.json();
-
-  if (!res.ok) {
-    throw new Error(result.message || "Failed to load profile");
-  }
-
-  return result;
+  return res.data;
 };
